@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KOJINGATE 個情門 | 改正個人情報保護法・電気通信事業法 第27条の12 ローカル診断台帳</title>
+  <meta name="description" content="ブラウザ完結・通信ゼロで日本のプライバシーポリシー（APPI第17/23/27/28/32条）とHTMLタグの外部送信規律（電気通信事業法第27条の12）を診断し、公表テーブルMarkdownを生成します。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="masthead" data-ui="masthead">
+      <div class="brand-lockup">
+        <span class="hanko-seal" aria-hidden="true">個情</span>
+        <div>
+          <h1>KOJINGATE <span class="title-sub">個情門</span></h1>
+          <p class="subtitle">改正個人情報保護法（APPI）・電気通信事業法 第27条の12（外部送信規律）ブラウザ完結診断</p>
+        </div>
+      </div>
+      <div class="trust-badges">
+        <span class="trust-pill" data-ui="badge">100% ブラウザローカル処理</span>
+        <span class="trust-pill" data-ui="badge">外部送信ゼロ・無料</span>
+      </div>
+    </header>
+
+    <main class="workspace-grid">
+      <section class="panel input-panel" data-ui="panel">
+        <div class="panel-head">
+          <h2>1. 診断対象の入力</h2>
+          <div class="preset-actions">
+            <button type="button" id="btn-sample-weak" class="btn-secondary" data-ui="btn">不備ありサンプル読込</button>
+            <button type="button" id="btn-sample-clean" class="btn-secondary" data-ui="btn">完全準拠サンプル読込</button>
+            <button type="button" id="btn-clear" class="btn-secondary" data-ui="btn">クリア</button>
+          </div>
+        </div>
+
+        <div class="meta-grid">
+          <label>
+            事業者名称（任意）
+            <input id="input-company" type="text" value="株式会社鶴見クラウド" />
+          </label>
+          <label>
+            所在地（任意）
+            <input id="input-address" type="text" value="東京都港区芝浦3-1-1" />
+          </label>
+          <label>
+            代表者氏名（任意）
+            <input id="input-rep" type="text" value="代表取締役 佐藤 誠一" />
+          </label>
+          <label>
+            相談窓口メール（任意）
+            <input id="input-email" type="text" value="privacy@tsurumi-cloud.jp" />
+          </label>
+        </div>
+
+        <label class="field-block">
+          プライバシーポリシー本文
+          <textarea id="input-policy" rows="9" placeholder="公表中のプライバシーポリシー全文を貼り付けてください..."></textarea>
+        </label>
+
+        <label class="field-block">
+          サイトの &lt;head&gt; / 外部スクリプト一覧（GA4・Meta・LINE・Sentry・Stripe 等）
+          <textarea id="input-scripts" rows="6" placeholder="HTMLのscriptタグや外部ドメイン一覧を貼り付けると、外部送信規律(第27条の12)対象SDKを自動抽出します..."></textarea>
+        </label>
+
+        <div class="run-bar">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="chk-crossborder" checked />
+            <span>海外SaaS・越境移転（第28条）を厳格チェックする</span>
+          </label>
+          <button type="button" id="btn-audit" class="btn-primary" data-ui="btn">診断を実行して公表表を生成</button>
+        </div>
+      </section>
+
+      <section class="panel output-panel" data-ui="panel">
+        <div class="panel-head">
+          <h2>2. 法令準拠診断・検出外部送信SDK</h2>
+          <div id="score-badge" class="score-pill" data-ui="score-pill">未診断</div>
+        </div>
+
+        <div class="summary-strip" data-ui="summary-strip">
+          <div class="metric-cell" data-ui="metric">
+            <span class="metric-label">準拠スコア</span>
+            <strong id="metric-score" class="metric-val">—</strong>
+          </div>
+          <div class="metric-cell" data-ui="metric">
+            <span class="metric-label">充足項目</span>
+            <strong id="metric-checks" class="metric-val">—</strong>
+          </div>
+          <div class="metric-cell" data-ui="metric">
+            <span class="metric-label">検出外部SDK</span>
+            <strong id="metric-trackers" class="metric-val">0 件</strong>
+          </div>
+        </div>
+
+        <h3>指摘事項（不足項目・是正案）</h3>
+        <div id="findings-list" class="findings-list">
+          <p class="muted-note">左欄にプライバシーポリシーと外部スクリプトを入力し、「診断を実行して公表表を生成」を押してください。</p>
+        </div>
+
+        <h3>検出された外部送信モジュール（第27条の12対象）</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>送信先事業者</th>
+                <th>所在国</th>
+                <th>用途</th>
+                <th>ポリシー記載</th>
+              </tr>
+            </thead>
+            <tbody id="trackers-tbody">
+              <tr><td colspan="4" class="muted-cell">まだスキャンされていません。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="draft-head">
+          <h3>自動生成 Markdown（APPI補正文＋外部送信規律公表表）</h3>
+          <div class="draft-actions">
+            <button type="button" id="btn-copy-md" class="btn-secondary" data-ui="btn">Markdownをコピー</button>
+            <button type="button" id="btn-download-md" class="btn-secondary" data-ui="btn">.md 保存</button>
+          </div>
+        </div>
+        <pre id="markdown-output" class="code-box"><code>診断実行後に改正個人情報保護法・外部送信規律公表テーブルが出力されます。</code></pre>
+      </section>
+    </main>
+
+    <footer class="site-footer" data-ui="footer">
+      <p>KOJINGATE 個情門 — Horizon-Money Studio Track 2（完全クライアントサイド実行・通信ゼロ・法務助言ではなく自己点検支援ツールです）</p>
+    </footer>
+  </div>
+
+  <script type="module" src="./app.mjs"></script>
+</body>
+</html>
